@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UFC Fight Night - Oliveira vs Gamrot</title>
+    <title>UFC Fight Night - Oliveira vs Gamrot - Transmissão Ao Vivo</title>
     <style>
         * {
             margin: 0;
@@ -146,6 +146,44 @@
             left: 0;
         }
         
+        .loading-message {
+            text-align: center;
+            padding: 20px;
+            color: #ffa500;
+            background: rgba(255, 165, 0, 0.1);
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+        
+        .auto-play-message {
+            text-align: center;
+            padding: 15px;
+            color: #4CAF50;
+            background: rgba(76, 175, 80, 0.1);
+            border-radius: 5px;
+            margin: 10px 0;
+            display: none;
+        }
+        
+        .play-button {
+            display: block;
+            width: 200px;
+            margin: 20px auto;
+            padding: 15px 30px;
+            background: #d00;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        
+        .play-button:hover {
+            background: #b00;
+        }
+        
         footer {
             text-align: center;
             padding: 20px 0;
@@ -168,6 +206,13 @@
                 font-size: 2rem;
             }
         }
+        
+        /* Estilos para TV */
+        @media (min-width: 1200px) {
+            .container {
+                max-width: 1400px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -178,13 +223,30 @@
             <p class="subtitle">Evento Principal - Transmissão Ao Vivo</p>
         </header>
         
+        <div class="loading-message" id="loadingMessage">
+            Iniciando transmissão automaticamente... Aguarde.
+        </div>
+        
+        <div class="auto-play-message" id="autoPlayMessage">
+            ✅ Reprodução automática ativada! O vídeo deve começar em instantes.
+        </div>
+        
+        <button class="play-button" id="manualPlayButton" style="display: none;">
+            ▶️ REPRODUZIR VÍDEO
+        </button>
+        
         <div class="player-container">
             <iframe 
+                id="ufcStream"
                 title="UFC Fight Night 261 Oliveira vs Gamrot Player" 
+                marginheight="0" 
+                marginwidth="0" 
                 src="https://embedsports.top/embed/echo/ppv-event-01-ufc-fight-night-oliveira-v-gamrot-ppv-01/1" 
                 scrolling="no" 
                 allowfullscreen="yes" 
-                allow="encrypted-media; picture-in-picture;" 
+                allow="autoplay; encrypted-media; picture-in-picture;" 
+                width="100%" 
+                height="100%" 
                 frameborder="0">
             </iframe>
         </div>
@@ -213,10 +275,11 @@
         <div class="instructions">
             <h2>Instruções de Uso</h2>
             <ul>
-                <li>O player carregará automaticamente quando a página abrir</li>
-                <li>Use os controles do player para play/pause, volume e tela cheia</li>
+                <li>A página tenta iniciar o vídeo automaticamente</li>
+                <li>Se não funcionar, clique no botão "REPRODUZIR VÍDEO"</li>
+                <li>Use os controles do player para volume e tela cheia</li>
                 <li>Para melhor experiência, use conexão de internet estável</li>
-                <li>Em caso de problemas de carregamento, tente atualizar a página</li>
+                <li>Em caso de problemas, atualize a página</li>
             </ul>
         </div>
         
@@ -224,5 +287,88 @@
             <p>UFC Fight Night - Transmissão Oficial | Esta é uma página de demonstração</p>
         </footer>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const iframe = document.getElementById('ufcStream');
+            const loadingMessage = document.getElementById('loadingMessage');
+            const autoPlayMessage = document.getElementById('autoPlayMessage');
+            const manualPlayButton = document.getElementById('manualPlayButton');
+            
+            // Estratégia 1: Tentar autoplay imediatamente
+            setTimeout(function() {
+                try {
+                    // Tentamos forçar o autoplay de várias formas
+                    iframe.src = iframe.src + "&autoplay=1";
+                    autoPlayMessage.style.display = 'block';
+                    loadingMessage.textContent = "Transmissão carregada! Iniciando vídeo...";
+                } catch (e) {
+                    console.log("Erro na estratégia 1:", e);
+                }
+            }, 1000);
+            
+            // Estratégia 2: Tentar novamente após 3 segundos
+            setTimeout(function() {
+                try {
+                    // Recarregar o iframe com parâmetros de autoplay
+                    const currentSrc = iframe.src;
+                    if (!currentSrc.includes('autoplay')) {
+                        iframe.src = currentSrc.replace('?', '?autoplay=1&').replace('&autoplay=1&autoplay=1', '&autoplay=1');
+                    }
+                    loadingMessage.textContent = "Otimizando reprodução automática...";
+                } catch (e) {
+                    console.log("Erro na estratégia 2:", e);
+                }
+            }, 3000);
+            
+            // Estratégia 3: Mostrar botão manual após 5 segundos se ainda não estiver funcionando
+            setTimeout(function() {
+                manualPlayButton.style.display = 'block';
+                loadingMessage.textContent = "Se o vídeo não iniciou automaticamente, clique no botão abaixo:";
+            }, 5000);
+            
+            // Botão manual para reproduzir
+            manualPlayButton.addEventListener('click', function() {
+                try {
+                    // Recarregar iframe com autoplay forçado
+                    let newSrc = iframe.src;
+                    if (newSrc.includes('autoplay')) {
+                        newSrc = newSrc.replace('autoplay=0', 'autoplay=1').replace('autoplay=false', 'autoplay=true');
+                    } else if (newSrc.includes('?')) {
+                        newSrc += '&autoplay=1';
+                    } else {
+                        newSrc += '?autoplay=1';
+                    }
+                    
+                    iframe.src = newSrc;
+                    manualPlayButton.textContent = "🔄 REINICIANDO...";
+                    manualPlayButton.disabled = true;
+                    
+                    setTimeout(function() {
+                        manualPlayButton.textContent = "✅ REPRODUZINDO!";
+                        loadingMessage.textContent = "Vídeo iniciado manualmente!";
+                    }, 2000);
+                } catch (e) {
+                    console.log("Erro no botão manual:", e);
+                    loadingMessage.textContent = "Erro ao iniciar vídeo. Tente atualizar a página.";
+                }
+            });
+            
+            // Verificar se o iframe carregou corretamente
+            iframe.addEventListener('load', function() {
+                loadingMessage.textContent = "Player carregado com sucesso!";
+                setTimeout(function() {
+                    autoPlayMessage.style.display = 'block';
+                }, 1000);
+            });
+            
+            // Tentativa final após 8 segundos
+            setTimeout(function() {
+                if (manualPlayButton.style.display === 'block') {
+                    loadingMessage.innerHTML = "⚠️ <strong>Reprodução automática não foi possível</strong><br>Clique no botão 'REPRODUZIR VÍDEO' acima";
+                }
+            }, 8000);
+        });
+    </script>
 </body>
 </html>
