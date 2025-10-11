@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UFC Fight Night - Oliveira vs Gamrot</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #0c0c0c 0%, #1a1a1a 100%);
+            color: #ffffff;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        header {
+            text-align: center;
+            padding: 20px 0;
+            border-bottom: 1px solid #333;
+            margin-bottom: 30px;
+        }
+        
+        .logo {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #d00;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-bottom: 10px;
+        }
+        
+        h1 {
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .subtitle {
+            color: #aaa;
+            font-size: 1rem;
+        }
+        
+        .player-container {
+            background: #000;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            margin-bottom: 30px;
+            position: relative;
+            padding-top: 56.25%; /* Proporção 16:9 */
+        }
+        
+        .player-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        
+        .event-info {
+            background: rgba(30, 30, 30, 0.8);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .event-info h2 {
+            color: #d00;
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+        }
+        
+        .fighters {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            margin-bottom: 30px;
+        }
+        
+        .fighter {
+            text-align: center;
+            width: 45%;
+            margin-bottom: 20px;
+        }
+        
+        .fighter img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #d00;
+            margin-bottom: 10px;
+        }
+        
+        .fighter h3 {
+            font-size: 1.3rem;
+            margin-bottom: 5px;
+        }
+        
+        .fighter .record {
+            color: #aaa;
+            font-size: 0.9rem;
+        }
+        
+        .instructions {
+            background: rgba(30, 30, 30, 0.8);
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+        
+        .instructions h2 {
+            color: #d00;
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+        }
+        
+        .instructions ul {
+            list-style-type: none;
+            padding-left: 10px;
+        }
+        
+        .instructions li {
+            margin-bottom: 10px;
+            padding-left: 20px;
+            position: relative;
+        }
+        
+        .instructions li:before {
+            content: "•";
+            color: #d00;
+            position: absolute;
+            left: 0;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 20px 0;
+            margin-top: 30px;
+            border-top: 1px solid #333;
+            color: #777;
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 768px) {
+            .fighter {
+                width: 100%;
+            }
+            
+            h1 {
+                font-size: 1.5rem;
+            }
+            
+            .logo {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">UFC</div>
+            <h1>Fight Night: Oliveira vs Gamrot</h1>
+            <p class="subtitle">Evento Principal - Transmissão Ao Vivo</p>
+        </header>
+        
+        <div class="player-container">
+            <iframe 
+                title="UFC Fight Night 261 Oliveira vs Gamrot Player" 
+                src="https://embedsports.top/embed/echo/ppv-event-01-ufc-fight-night-oliveira-v-gamrot-ppv-01/1" 
+                scrolling="no" 
+                allowfullscreen="yes" 
+                allow="encrypted-media; picture-in-picture;" 
+                frameborder="0">
+            </iframe>
+        </div>
+        
+        <div class="event-info">
+            <h2>Sobre o Evento</h2>
+            <p>Charles "Do Bronx" Oliveira enfrenta Mateusz Gamrot no evento principal do UFC Fight Night. Dois dos melhores leves do mundo se enfrentam em uma luta que promete grandes emoções e técnicas de alto nível.</p>
+        </div>
+        
+        <div class="fighters">
+            <div class="fighter">
+                <img src="https://dm0qx8t0i9gc9.cloudfront.net/thumbnails/video/GTYSdDW/videoblocks-mma-fighter-standing-in-the-octagon_s0hqjq1p_thumbnail-1080_01.png" alt="Charles Oliveira">
+                <h3>Charles Oliveira</h3>
+                <p class="record">33-9-0 (1NC)</p>
+                <p>Brasil</p>
+            </div>
+            
+            <div class="fighter">
+                <img src="https://dm0qx8t0i9gc9.cloudfront.net/thumbnails/video/GTYSdDW/videoblocks-mma-fighter-standing-in-the-octagon_s0hqjq1p_thumbnail-1080_01.png" alt="Mateusz Gamrot">
+                <h3>Mateusz Gamrot</h3>
+                <p class="record">21-2-0 (1NC)</p>
+                <p>Polônia</p>
+            </div>
+        </div>
+        
+        <div class="instructions">
+            <h2>Instruções de Uso</h2>
+            <ul>
+                <li>O player carregará automaticamente quando a página abrir</li>
+                <li>Use os controles do player para play/pause, volume e tela cheia</li>
+                <li>Para melhor experiência, use conexão de internet estável</li>
+                <li>Em caso de problemas de carregamento, tente atualizar a página</li>
+            </ul>
+        </div>
+        
+        <footer>
+            <p>UFC Fight Night - Transmissão Oficial | Esta é uma página de demonstração</p>
+        </footer>
+    </div>
+</body>
+</html>
