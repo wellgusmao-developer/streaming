@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UFC Fight Night - Oliveira vs Gamrot - Transmissão Ao Vivo</title>
+    <title>UFC Fight Night - Oliveira vs Gamrot - AO VIVO</title>
+    <link href="https://vjs.zencdn.net/8.10.0/video-js.css" rel="stylesheet" />
     <style>
         * {
             margin: 0;
@@ -57,17 +58,11 @@
             overflow: hidden;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
             margin-bottom: 30px;
-            position: relative;
-            padding-top: 56.25%; /* Proporção 16:9 */
         }
         
-        .player-container iframe {
-            position: absolute;
-            top: 0;
-            left: 0;
+        .video-js {
             width: 100%;
-            height: 100%;
-            border: none;
+            height: 500px;
         }
         
         .event-info {
@@ -146,42 +141,32 @@
             left: 0;
         }
         
-        .loading-message {
-            text-align: center;
-            padding: 20px;
-            color: #ffa500;
-            background: rgba(255, 165, 0, 0.1);
-            border-radius: 5px;
-            margin: 10px 0;
+        .player-options {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
         }
         
-        .auto-play-message {
-            text-align: center;
-            padding: 15px;
-            color: #4CAF50;
-            background: rgba(76, 175, 80, 0.1);
-            border-radius: 5px;
-            margin: 10px 0;
-            display: none;
-        }
-        
-        .play-button {
-            display: block;
-            width: 200px;
-            margin: 20px auto;
-            padding: 15px 30px;
+        .player-btn {
             background: #d00;
             color: white;
             border: none;
+            padding: 12px 20px;
             border-radius: 5px;
-            font-size: 1.2rem;
-            font-weight: bold;
             cursor: pointer;
-            transition: background 0.3s;
+            font-weight: bold;
+            font-size: 1rem;
         }
         
-        .play-button:hover {
+        .player-btn:hover {
             background: #b00;
+        }
+        
+        .player-btn:disabled {
+            background: #666;
+            cursor: not-allowed;
         }
         
         footer {
@@ -191,6 +176,43 @@
             border-top: 1px solid #333;
             color: #777;
             font-size: 0.9rem;
+        }
+        
+        .status {
+            margin-top: 10px;
+            padding: 12px;
+            border-radius: 5px;
+            text-align: center;
+            font-weight: bold;
+        }
+        
+        .status.loading {
+            background: rgba(255, 165, 0, 0.2);
+            color: #ffa500;
+            border: 1px solid #ffa500;
+        }
+        
+        .status.playing {
+            background: rgba(76, 175, 80, 0.2);
+            color: #4CAF50;
+            border: 1px solid #4CAF50;
+        }
+        
+        .status.error {
+            background: rgba(244, 67, 54, 0.2);
+            color: #f44336;
+            border: 1px solid #f44336;
+        }
+        
+        .retry-button {
+            background: #d00;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+            font-weight: bold;
         }
         
         @media (max-width: 768px) {
@@ -205,13 +227,43 @@
             .logo {
                 font-size: 2rem;
             }
+            
+            .video-js {
+                height: 300px;
+            }
+            
+            .player-btn {
+                padding: 10px 15px;
+                font-size: 0.9rem;
+            }
         }
         
-        /* Estilos para TV */
+        /* Estilos específicos para TV */
         @media (min-width: 1200px) {
-            .container {
-                max-width: 1400px;
+            .video-js {
+                height: 600px;
             }
+            
+            .player-btn {
+                padding: 15px 25px;
+                font-size: 1.1rem;
+            }
+        }
+        
+        /* Customização do Video.js */
+        .vjs-default-skin .vjs-big-play-button {
+            background-color: rgba(208, 0, 0, 0.7);
+            border: none;
+            border-radius: 50%;
+            width: 80px;
+            height: 80px;
+            line-height: 80px;
+            margin-left: -40px;
+            margin-top: -40px;
+        }
+        
+        .vjs-default-skin:hover .vjs-big-play-button {
+            background-color: rgba(208, 0, 0, 0.9);
         }
     </style>
 </head>
@@ -223,32 +275,32 @@
             <p class="subtitle">Evento Principal - Transmissão Ao Vivo</p>
         </header>
         
-        <div class="loading-message" id="loadingMessage">
-            Iniciando transmissão automaticamente... Aguarde.
-        </div>
-        
-        <div class="auto-play-message" id="autoPlayMessage">
-            ✅ Reprodução automática ativada! O vídeo deve começar em instantes.
-        </div>
-        
-        <button class="play-button" id="manualPlayButton" style="display: none;">
-            ▶️ REPRODUZIR VÍDEO
-        </button>
-        
         <div class="player-container">
-            <iframe 
-                id="ufcStream"
-                title="UFC Fight Night 261 Oliveira vs Gamrot Player" 
-                marginheight="0" 
-                marginwidth="0" 
-                src="https://embedsports.top/embed/echo/ppv-event-01-ufc-fight-night-oliveira-v-gamrot-ppv-01/1" 
-                scrolling="no" 
-                allowfullscreen="yes" 
-                allow="autoplay; encrypted-media; picture-in-picture;" 
-                width="100%" 
-                height="100%" 
-                frameborder="0">
-            </iframe>
+            <div class="player-options">
+                <button class="player-btn" id="playBtn">▶ Reproduzir</button>
+                <button class="player-btn" id="pauseBtn">⏸ Pausar</button>
+                <button class="player-btn" id="fullscreenBtn">⛶ Tela Cheia</button>
+                <button class="player-btn" id="volumeUpBtn">🔊 Volume +</button>
+                <button class="player-btn" id="volumeDownBtn">🔉 Volume -</button>
+            </div>
+            
+            <video
+                id="ufc-video"
+                class="video-js vjs-default-skin"
+                controls
+                preload="auto"
+                playsinline
+                data-setup='{}'
+            >
+                <p class="vjs-no-js">
+                    Para visualizar este vídeo, por favor habilite o JavaScript e considere atualizar para um navegador que
+                    <a href="https://videojs.com/html5-video-support/" target="_blank">suporte vídeo HTML5</a>
+                </p>
+            </video>
+            
+            <div id="playerStatus" class="status loading">
+                🔄 Inicializando player e carregando transmissão...
+            </div>
         </div>
         
         <div class="event-info">
@@ -275,11 +327,11 @@
         <div class="instructions">
             <h2>Instruções de Uso</h2>
             <ul>
-                <li>A página tenta iniciar o vídeo automaticamente</li>
-                <li>Se não funcionar, clique no botão "REPRODUZIR VÍDEO"</li>
-                <li>Use os controles do player para volume e tela cheia</li>
+                <li>O vídeo tentará iniciar automaticamente assim que a página carregar</li>
+                <li>Use os botões acima ou os controles do player para controlar a reprodução</li>
                 <li>Para melhor experiência, use conexão de internet estável</li>
-                <li>Em caso de problemas, atualize a página</li>
+                <li>Esta versão é otimizada para navegadores de TV e dispositivos móveis</li>
+                <li>Em caso de problemas de carregamento, tente atualizar a página</li>
             </ul>
         </div>
         
@@ -288,86 +340,129 @@
         </footer>
     </div>
 
+    <!-- Video.js e HLS.js -->
+    <script src="https://vjs.zencdn.net/8.10.0/video.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@videojs/http-streaming@3.0.2/dist/videojs-http-streaming.min.js"></script>
+    
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const iframe = document.getElementById('ufcStream');
-            const loadingMessage = document.getElementById('loadingMessage');
-            const autoPlayMessage = document.getElementById('autoPlayMessage');
-            const manualPlayButton = document.getElementById('manualPlayButton');
+        // URL do stream M3U8
+        const STREAM_URL = "https://fl51.moveonjoy.com/PPV_1/tracks-v1a1/mono.ts.m3u8";
+        
+        // Inicializar o player
+        const player = videojs('ufc-video');
+        const statusElement = document.getElementById('playerStatus');
+        
+        // Configurar o player com a fonte M3U8
+        function setupPlayer() {
+            statusElement.textContent = '🔄 Configurando player...';
+            statusElement.className = 'status loading';
             
-            // Estratégia 1: Tentar autoplay imediatamente
-            setTimeout(function() {
-                try {
-                    // Tentamos forçar o autoplay de várias formas
-                    iframe.src = iframe.src + "&autoplay=1";
-                    autoPlayMessage.style.display = 'block';
-                    loadingMessage.textContent = "Transmissão carregada! Iniciando vídeo...";
-                } catch (e) {
-                    console.log("Erro na estratégia 1:", e);
-                }
-            }, 1000);
-            
-            // Estratégia 2: Tentar novamente após 3 segundos
-            setTimeout(function() {
-                try {
-                    // Recarregar o iframe com parâmetros de autoplay
-                    const currentSrc = iframe.src;
-                    if (!currentSrc.includes('autoplay')) {
-                        iframe.src = currentSrc.replace('?', '?autoplay=1&').replace('&autoplay=1&autoplay=1', '&autoplay=1');
-                    }
-                    loadingMessage.textContent = "Otimizando reprodução automática...";
-                } catch (e) {
-                    console.log("Erro na estratégia 2:", e);
-                }
-            }, 3000);
-            
-            // Estratégia 3: Mostrar botão manual após 5 segundos se ainda não estiver funcionando
-            setTimeout(function() {
-                manualPlayButton.style.display = 'block';
-                loadingMessage.textContent = "Se o vídeo não iniciou automaticamente, clique no botão abaixo:";
-            }, 5000);
-            
-            // Botão manual para reproduzir
-            manualPlayButton.addEventListener('click', function() {
-                try {
-                    // Recarregar iframe com autoplay forçado
-                    let newSrc = iframe.src;
-                    if (newSrc.includes('autoplay')) {
-                        newSrc = newSrc.replace('autoplay=0', 'autoplay=1').replace('autoplay=false', 'autoplay=true');
-                    } else if (newSrc.includes('?')) {
-                        newSrc += '&autoplay=1';
-                    } else {
-                        newSrc += '?autoplay=1';
-                    }
+            try {
+                player.src({
+                    src: STREAM_URL,
+                    type: 'application/x-mpegURL'
+                });
+                
+                statusElement.textContent = '✅ Player configurado! Iniciando reprodução...';
+                
+                // Tentar reproduzir automaticamente
+                setTimeout(() => {
+                    const playPromise = player.play();
                     
-                    iframe.src = newSrc;
-                    manualPlayButton.textContent = "🔄 REINICIANDO...";
-                    manualPlayButton.disabled = true;
-                    
-                    setTimeout(function() {
-                        manualPlayButton.textContent = "✅ REPRODUZINDO!";
-                        loadingMessage.textContent = "Vídeo iniciado manualmente!";
-                    }, 2000);
-                } catch (e) {
-                    console.log("Erro no botão manual:", e);
-                    loadingMessage.textContent = "Erro ao iniciar vídeo. Tente atualizar a página.";
-                }
-            });
-            
-            // Verificar se o iframe carregou corretamente
-            iframe.addEventListener('load', function() {
-                loadingMessage.textContent = "Player carregado com sucesso!";
-                setTimeout(function() {
-                    autoPlayMessage.style.display = 'block';
+                    if (playPromise !== undefined) {
+                        playPromise.then(() => {
+                            statusElement.textContent = '🎥 Transmissão AO VIVO - Reproduzindo';
+                            statusElement.className = 'status playing';
+                        }).catch(error => {
+                            statusElement.textContent = '⚠️ Reprodução automática bloqueada. Clique em Reproduzir.';
+                            statusElement.className = 'status loading';
+                            console.log('Autoplay bloqueado:', error);
+                        });
+                    }
                 }, 1000);
+                
+            } catch (error) {
+                statusElement.textContent = '❌ Erro ao configurar o player: ' + error.message;
+                statusElement.className = 'status error';
+                console.error('Erro na configuração:', error);
+            }
+        }
+        
+        // Eventos do player
+        player.ready(function() {
+            statusElement.textContent = '🔄 Player carregado, configurando stream...';
+            setupPlayer();
+            
+            player.on('loadstart', function() {
+                statusElement.textContent = '🔄 Carregando transmissão...';
+                statusElement.className = 'status loading';
             });
             
-            // Tentativa final após 8 segundos
-            setTimeout(function() {
-                if (manualPlayButton.style.display === 'block') {
-                    loadingMessage.innerHTML = "⚠️ <strong>Reprodução automática não foi possível</strong><br>Clique no botão 'REPRODUZIR VÍDEO' acima";
-                }
-            }, 8000);
+            player.on('playing', function() {
+                statusElement.textContent = '🎥 Transmissão AO VIVO - Reproduzindo';
+                statusElement.className = 'status playing';
+            });
+            
+            player.on('pause', function() {
+                statusElement.textContent = '⏸ Transmissão pausada';
+                statusElement.className = 'status loading';
+            });
+            
+            player.on('waiting', function() {
+                statusElement.textContent = '🔄 Buffering...';
+                statusElement.className = 'status loading';
+            });
+            
+            player.on('error', function() {
+                statusElement.textContent = '❌ Erro na transmissão. Tentando recuperar...';
+                statusElement.className = 'status error';
+                
+                // Tentar recarregar após 5 segundos em caso de erro
+                setTimeout(() => {
+                    statusElement.textContent = '🔄 Tentando reconectar...';
+                    player.src({
+                        src: STREAM_URL,
+                        type: 'application/x-mpegURL'
+                    });
+                    player.play();
+                }, 5000);
+            });
+        });
+        
+        // Controles de botão
+        document.getElementById('playBtn').addEventListener('click', function() {
+            player.play();
+            statusElement.textContent = '🎥 Iniciando reprodução...';
+            statusElement.className = 'status loading';
+        });
+        
+        document.getElementById('pauseBtn').addEventListener('click', function() {
+            player.pause();
+        });
+        
+        document.getElementById('fullscreenBtn').addEventListener('click', function() {
+            if (player.isFullscreen()) {
+                player.exitFullscreen();
+            } else {
+                player.requestFullscreen();
+            }
+        });
+        
+        document.getElementById('volumeUpBtn').addEventListener('click', function() {
+            if (player.volume() < 1) {
+                player.volume(player.volume() + 0.1);
+            }
+        });
+        
+        document.getElementById('volumeDownBtn').addEventListener('click', function() {
+            if (player.volume() > 0) {
+                player.volume(player.volume() - 0.1);
+            }
+        });
+        
+        // Tentar reproduzir quando a página estiver totalmente carregada
+        window.addEventListener('load', function() {
+            setTimeout(setupPlayer, 500);
         });
     </script>
 </body>
