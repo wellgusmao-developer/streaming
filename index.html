@@ -3,61 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UFC Fight Night - Oliveira vs Gamrot - AO VIVO</title>
+    <title>Player M3U8</title>
     <link href="https://vjs.zencdn.net/8.10.0/video-js.css" rel="stylesheet" />
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: Arial, sans-serif;
         }
         
         body {
-            background: linear-gradient(135deg, #0c0c0c 0%, #1a1a1a 100%);
+            background: #1a1a1a;
             color: #ffffff;
             min-height: 100vh;
             padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
         
         .container {
-            max-width: 1200px;
-            margin: 0 auto;
+            max-width: 1000px;
+            width: 100%;
         }
         
         header {
             text-align: center;
             padding: 20px 0;
-            border-bottom: 1px solid #333;
-            margin-bottom: 30px;
-        }
-        
-        .logo {
-            font-size: 2.5rem;
-            font-weight: bold;
-            color: #d00;
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            margin-bottom: 10px;
+            margin-bottom: 20px;
         }
         
         h1 {
-            font-size: 1.8rem;
-            font-weight: 600;
-            margin-bottom: 5px;
-        }
-        
-        .subtitle {
-            color: #aaa;
-            font-size: 1rem;
+            font-size: 2rem;
+            margin-bottom: 10px;
+            color: #4CAF50;
         }
         
         .player-container {
             background: #000;
             border-radius: 10px;
             overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            margin-bottom: 20px;
         }
         
         .video-js {
@@ -65,83 +53,7 @@
             height: 500px;
         }
         
-        .event-info {
-            background: rgba(30, 30, 30, 0.8);
-            border-radius: 10px;
-            padding: 20px;
-            margin-bottom: 30px;
-        }
-        
-        .event-info h2 {
-            color: #d00;
-            margin-bottom: 15px;
-            font-size: 1.5rem;
-        }
-        
-        .fighters {
-            display: flex;
-            justify-content: space-around;
-            flex-wrap: wrap;
-            margin-bottom: 30px;
-        }
-        
-        .fighter {
-            text-align: center;
-            width: 45%;
-            margin-bottom: 20px;
-        }
-        
-        .fighter img {
-            width: 150px;
-            height: 150px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 3px solid #d00;
-            margin-bottom: 10px;
-        }
-        
-        .fighter h3 {
-            font-size: 1.3rem;
-            margin-bottom: 5px;
-        }
-        
-        .fighter .record {
-            color: #aaa;
-            font-size: 0.9rem;
-        }
-        
-        .instructions {
-            background: rgba(30, 30, 30, 0.8);
-            border-radius: 10px;
-            padding: 20px;
-            margin-top: 20px;
-        }
-        
-        .instructions h2 {
-            color: #d00;
-            margin-bottom: 15px;
-            font-size: 1.5rem;
-        }
-        
-        .instructions ul {
-            list-style-type: none;
-            padding-left: 10px;
-        }
-        
-        .instructions li {
-            margin-bottom: 10px;
-            padding-left: 20px;
-            position: relative;
-        }
-        
-        .instructions li:before {
-            content: "•";
-            color: #d00;
-            position: absolute;
-            left: 0;
-        }
-        
-        .player-options {
+        .controls {
             display: flex;
             gap: 10px;
             margin-bottom: 15px;
@@ -149,143 +61,120 @@
             justify-content: center;
         }
         
-        .player-btn {
-            background: #d00;
-            color: white;
-            border: none;
-            padding: 12px 20px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-weight: bold;
-            font-size: 1rem;
-        }
-        
-        .player-btn:hover {
-            background: #b00;
-        }
-        
-        .player-btn:disabled {
-            background: #666;
-            cursor: not-allowed;
-        }
-        
-        footer {
-            text-align: center;
-            padding: 20px 0;
-            margin-top: 30px;
-            border-top: 1px solid #333;
-            color: #777;
-            font-size: 0.9rem;
-        }
-        
-        .status {
-            margin-top: 10px;
-            padding: 12px;
-            border-radius: 5px;
-            text-align: center;
-            font-weight: bold;
-        }
-        
-        .status.loading {
-            background: rgba(255, 165, 0, 0.2);
-            color: #ffa500;
-            border: 1px solid #ffa500;
-        }
-        
-        .status.playing {
-            background: rgba(76, 175, 80, 0.2);
-            color: #4CAF50;
-            border: 1px solid #4CAF50;
-        }
-        
-        .status.error {
-            background: rgba(244, 67, 54, 0.2);
-            color: #f44336;
-            border: 1px solid #f44336;
-        }
-        
-        .retry-button {
-            background: #d00;
+        .btn {
+            background: #4CAF50;
             color: white;
             border: none;
             padding: 10px 20px;
             border-radius: 5px;
             cursor: pointer;
-            margin-top: 10px;
+            font-size: 14px;
+            transition: background 0.3s;
+        }
+        
+        .btn:hover {
+            background: #45a049;
+        }
+        
+        .btn:disabled {
+            background: #666;
+            cursor: not-allowed;
+        }
+        
+        .status {
+            padding: 10px;
+            border-radius: 5px;
+            text-align: center;
+            margin: 10px 0;
             font-weight: bold;
         }
         
+        .status.loading {
+            background: #ff9800;
+            color: #000;
+        }
+        
+        .status.playing {
+            background: #4CAF50;
+            color: white;
+        }
+        
+        .status.error {
+            background: #f44336;
+            color: white;
+        }
+        
+        .stream-input {
+            background: #2d2d2d;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+        
+        .input-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        
+        .url-input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #444;
+            border-radius: 5px;
+            background: #1a1a1a;
+            color: white;
+            font-size: 14px;
+        }
+        
+        .info {
+            color: #aaa;
+            font-size: 12px;
+            margin-top: 10px;
+            text-align: center;
+        }
+        
         @media (max-width: 768px) {
-            .fighter {
-                width: 100%;
+            .video-js {
+                height: 300px;
             }
             
             h1 {
                 font-size: 1.5rem;
             }
             
-            .logo {
-                font-size: 2rem;
-            }
-            
-            .video-js {
-                height: 300px;
-            }
-            
-            .player-btn {
-                padding: 10px 15px;
-                font-size: 0.9rem;
-            }
-        }
-        
-        /* Estilos específicos para TV */
-        @media (min-width: 1200px) {
-            .video-js {
-                height: 600px;
-            }
-            
-            .player-btn {
-                padding: 15px 25px;
-                font-size: 1.1rem;
+            .btn {
+                padding: 8px 16px;
+                font-size: 12px;
             }
         }
         
         /* Customização do Video.js */
         .vjs-default-skin .vjs-big-play-button {
-            background-color: rgba(208, 0, 0, 0.7);
+            background-color: rgba(76, 175, 80, 0.7);
             border: none;
             border-radius: 50%;
-            width: 80px;
-            height: 80px;
-            line-height: 80px;
-            margin-left: -40px;
-            margin-top: -40px;
-        }
-        
-        .vjs-default-skin:hover .vjs-big-play-button {
-            background-color: rgba(208, 0, 0, 0.9);
         }
     </style>
 </head>
 <body>
     <div class="container">
         <header>
-            <div class="logo">UFC</div>
-            <h1>Fight Night: Oliveira vs Gamrot</h1>
-            <p class="subtitle">Evento Principal - Transmissão Ao Vivo</p>
+            <h1>Player M3U8</h1>
+            <p>Reprodutor simples para streams online</p>
         </header>
         
         <div class="player-container">
-            <div class="player-options">
-                <button class="player-btn" id="playBtn">▶ Reproduzir</button>
-                <button class="player-btn" id="pauseBtn">⏸ Pausar</button>
-                <button class="player-btn" id="fullscreenBtn">⛶ Tela Cheia</button>
-                <button class="player-btn" id="volumeUpBtn">🔊 Volume +</button>
-                <button class="player-btn" id="volumeDownBtn">🔉 Volume -</button>
+            <div class="controls">
+                <button class="btn" id="playBtn">▶ Reproduzir</button>
+                <button class="btn" id="pauseBtn">⏸ Pausar</button>
+                <button class="btn" id="fullscreenBtn">⛶ Tela Cheia</button>
+                <button class="btn" id="volumeUpBtn">🔊 +</button>
+                <button class="btn" id="volumeDownBtn">🔉 -</button>
             </div>
             
             <video
-                id="ufc-video"
+                id="video-player"
                 class="video-js vjs-default-skin"
                 controls
                 preload="auto"
@@ -293,51 +182,30 @@
                 data-setup='{}'
             >
                 <p class="vjs-no-js">
-                    Para visualizar este vídeo, por favor habilite o JavaScript e considere atualizar para um navegador que
-                    <a href="https://videojs.com/html5-video-support/" target="_blank">suporte vídeo HTML5</a>
+                    Para visualizar este vídeo, por favor habilite o JavaScript.
                 </p>
             </video>
             
             <div id="playerStatus" class="status loading">
-                🔄 Inicializando player e carregando transmissão...
+                Aguardando stream...
             </div>
         </div>
         
-        <div class="event-info">
-            <h2>Sobre o Evento</h2>
-            <p>Charles "Do Bronx" Oliveira enfrenta Mateusz Gamrot no evento principal do UFC Fight Night. Dois dos melhores leves do mundo se enfrentam em uma luta que promete grandes emoções e técnicas de alto nível.</p>
-        </div>
-        
-        <div class="fighters">
-            <div class="fighter">
-                <img src="https://dm0qx8t0i9gc9.cloudfront.net/thumbnails/video/GTYSdDW/videoblocks-mma-fighter-standing-in-the-octagon_s0hqjq1p_thumbnail-1080_01.png" alt="Charles Oliveira">
-                <h3>Charles Oliveira</h3>
-                <p class="record">33-9-0 (1NC)</p>
-                <p>Brasil</p>
+        <div class="stream-input">
+            <div class="input-group">
+                <input 
+                    type="text" 
+                    class="url-input" 
+                    id="streamUrl" 
+                    placeholder="Cole a URL do stream M3U8 aqui..."
+                    value="https://fl51.moveonjoy.com/NFL_NETWORK/tracks-v1a1/mono.ts.m3u8"
+                >
+                <button class="btn" id="loadStreamBtn">Carregar Stream</button>
             </div>
-            
-            <div class="fighter">
-                <img src="https://dm0qx8t0i9gc9.cloudfront.net/thumbnails/video/GTYSdDW/videoblocks-mma-fighter-standing-in-the-octagon_s0hqjq1p_thumbnail-1080_01.png" alt="Mateusz Gamrot">
-                <h3>Mateusz Gamrot</h3>
-                <p class="record">21-2-0 (1NC)</p>
-                <p>Polônia</p>
-            </div>
+            <p class="info">
+                Cole a URL de um stream M3U8 acima e clique em "Carregar Stream" para reproduzir
+            </p>
         </div>
-        
-        <div class="instructions">
-            <h2>Instruções de Uso</h2>
-            <ul>
-                <li>O vídeo tentará iniciar automaticamente assim que a página carregar</li>
-                <li>Use os botões acima ou os controles do player para controlar a reprodução</li>
-                <li>Para melhor experiência, use conexão de internet estável</li>
-                <li>Esta versão é otimizada para navegadores de TV e dispositivos móveis</li>
-                <li>Em caso de problemas de carregamento, tente atualizar a página</li>
-            </ul>
-        </div>
-        
-        <footer>
-            <p>UFC Fight Night - Transmissão Oficial | Esta é uma página de demonstração</p>
-        </footer>
     </div>
 
     <!-- Video.js e HLS.js -->
@@ -345,66 +213,74 @@
     <script src="https://cdn.jsdelivr.net/npm/@videojs/http-streaming@3.0.2/dist/videojs-http-streaming.min.js"></script>
     
     <script>
-        // URL do stream M3U8
-        const STREAM_URL = "https://fl51.moveonjoy.com/PPV_1/tracks-v1a1/mono.ts.m3u8";
-        
-        // Inicializar o player
-        const player = videojs('ufc-video');
+        // Elementos da interface
+        const player = videojs('video-player');
         const statusElement = document.getElementById('playerStatus');
+        const streamUrlInput = document.getElementById('streamUrl');
+        const loadStreamBtn = document.getElementById('loadStreamBtn');
         
-        // Configurar o player com a fonte M3U8
-        function setupPlayer() {
-            statusElement.textContent = '🔄 Configurando player...';
+        // URLs de exemplo (pode remover ou modificar)
+        const exampleStreams = [
+            "https://fl51.moveonjoy.com/NFL_NETWORK/tracks-v1a1/mono.ts.m3u8",
+            "https://example.com/stream1.m3u8",
+            "https://example.com/stream2.m3u8"
+        ];
+        
+        // Função para carregar um stream
+        function loadStream(streamUrl) {
+            if (!streamUrl) {
+                statusElement.textContent = '❌ Por favor, insira uma URL válida';
+                statusElement.className = 'status error';
+                return;
+            }
+            
+            statusElement.textContent = '🔄 Carregando stream...';
             statusElement.className = 'status loading';
             
             try {
+                // Configurar o player com a nova fonte
                 player.src({
-                    src: STREAM_URL,
+                    src: streamUrl,
                     type: 'application/x-mpegURL'
                 });
                 
-                statusElement.textContent = '✅ Player configurado! Iniciando reprodução...';
-                
                 // Tentar reproduzir automaticamente
-                setTimeout(() => {
-                    const playPromise = player.play();
-                    
-                    if (playPromise !== undefined) {
-                        playPromise.then(() => {
-                            statusElement.textContent = '🎥 Transmissão AO VIVO - Reproduzindo';
-                            statusElement.className = 'status playing';
-                        }).catch(error => {
-                            statusElement.textContent = '⚠️ Reprodução automática bloqueada. Clique em Reproduzir.';
-                            statusElement.className = 'status loading';
-                            console.log('Autoplay bloqueado:', error);
-                        });
-                    }
-                }, 1000);
+                const playPromise = player.play();
+                
+                if (playPromise !== undefined) {
+                    playPromise.then(() => {
+                        statusElement.textContent = '✅ Stream carregado e reproduzindo';
+                        statusElement.className = 'status playing';
+                    }).catch(error => {
+                        statusElement.textContent = '✅ Stream carregado - Clique em Reproduzir';
+                        statusElement.className = 'status playing';
+                    });
+                }
                 
             } catch (error) {
-                statusElement.textContent = '❌ Erro ao configurar o player: ' + error.message;
+                statusElement.textContent = '❌ Erro ao carregar o stream: ' + error.message;
                 statusElement.className = 'status error';
-                console.error('Erro na configuração:', error);
+                console.error('Erro:', error);
             }
         }
         
         // Eventos do player
         player.ready(function() {
-            statusElement.textContent = '🔄 Player carregado, configurando stream...';
-            setupPlayer();
+            statusElement.textContent = '✅ Player pronto - Insira uma URL M3U8';
+            statusElement.className = 'status playing';
             
             player.on('loadstart', function() {
-                statusElement.textContent = '🔄 Carregando transmissão...';
+                statusElement.textContent = '🔄 Carregando stream...';
                 statusElement.className = 'status loading';
             });
             
             player.on('playing', function() {
-                statusElement.textContent = '🎥 Transmissão AO VIVO - Reproduzindo';
+                statusElement.textContent = '✅ Reproduzindo';
                 statusElement.className = 'status playing';
             });
             
             player.on('pause', function() {
-                statusElement.textContent = '⏸ Transmissão pausada';
+                statusElement.textContent = '⏸ Pausado';
                 statusElement.className = 'status loading';
             });
             
@@ -414,26 +290,14 @@
             });
             
             player.on('error', function() {
-                statusElement.textContent = '❌ Erro na transmissão. Tentando recuperar...';
+                statusElement.textContent = '❌ Erro no stream';
                 statusElement.className = 'status error';
-                
-                // Tentar recarregar após 5 segundos em caso de erro
-                setTimeout(() => {
-                    statusElement.textContent = '🔄 Tentando reconectar...';
-                    player.src({
-                        src: STREAM_URL,
-                        type: 'application/x-mpegURL'
-                    });
-                    player.play();
-                }, 5000);
             });
         });
         
         // Controles de botão
         document.getElementById('playBtn').addEventListener('click', function() {
             player.play();
-            statusElement.textContent = '🎥 Iniciando reprodução...';
-            statusElement.className = 'status loading';
         });
         
         document.getElementById('pauseBtn').addEventListener('click', function() {
@@ -460,9 +324,22 @@
             }
         });
         
-        // Tentar reproduzir quando a página estiver totalmente carregada
+        // Carregar stream quando o botão for clicado
+        loadStreamBtn.addEventListener('click', function() {
+            loadStream(streamUrlInput.value.trim());
+        });
+        
+        // Carregar stream quando Enter for pressionado no input
+        streamUrlInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                loadStream(streamUrlInput.value.trim());
+            }
+        });
+        
+        // Carregar stream padrão ao iniciar (opcional)
         window.addEventListener('load', function() {
-            setTimeout(setupPlayer, 500);
+            // Descomente a linha abaixo se quiser carregar automaticamente o stream padrão
+            // loadStream(streamUrlInput.value);
         });
     </script>
 </body>
